@@ -134,7 +134,7 @@ Type, Address, Name, RSSI, TX Power, Connectable, Manufacturer, Model Number, Se
 
 ## Contact / Support
 
-For issues or feature requests, please open an issue on the repository (replace with the actual URL).
+For issues or feature requests, please open an issue on the [repository](https://github.com/Brage1025/Bluetooth-Device-Scanner/issues).
 
 ---
 
