@@ -1,0 +1,28 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+
+# PyInstaller outputs
+*.spec
+dist/
+build/
+
+# Built Executables
+*.exe
+
+# IDE files
+.vscode/
+.idea/
+
+# OS junk
+Thumbs.db
+.DS_Store
+
+# User-generated scan output
+*.txt
+*.json
+*.csv
