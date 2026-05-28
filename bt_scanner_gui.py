@@ -15,6 +15,7 @@ import subprocess
 import sys
 import csv
 import os
+import webbrowser
 
 def resource_path(relative_path):
     try:
@@ -299,6 +300,12 @@ class BluetoothScannerApp:
         root.minsize(850, 600)
         root.resizable(True, True)
 
+        menubar = tk.Menu(root)
+        root.config(menu=menubar)
+        help_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="?", menu=help_menu)
+        help_menu.add_command(label="About", command=self.show_about)
+
         self.hcitool_available = check_hcitool_linux()
         if not self.hcitool_available and sys.platform.startswith("linux"):
             messagebox.showwarning(
@@ -416,6 +423,70 @@ class BluetoothScannerApp:
         self.is_scanning = False
         self.stop_event = asyncio.Event()
         self.scan_task = None
+
+    def show_about(self):
+        about_window = tk.Toplevel(self.root)
+        about_window.title("About")
+        about_window.resizable(False, False)
+        about_window.grab_set()
+
+        icon_path = resource_path("BluetoothDeviceScannerIcon.ico")
+        if os.path.exists(icon_path):
+            try:
+                about_window.iconbitmap(icon_path)
+            except Exception:
+                pass
+
+        # Main frame with minimal padding
+        main_frame = tk.Frame(about_window, padx=20, pady=10)
+        main_frame.pack(fill=tk.BOTH, expand=True)
+
+        # Logo (larger, centered)
+        logo_path = resource_path("BluetoothDeviceScannerLogo.png")
+        if os.path.exists(logo_path) and PIL_AVAILABLE:
+            try:
+                img = Image.open(logo_path)
+                img_resized = img.resize((240, 120), Image.Resampling.LANCZOS)
+                logo_img = ImageTk.PhotoImage(img_resized)
+                logo_label = tk.Label(main_frame, image=logo_img, bg=about_window.cget("bg"))
+                logo_label.image = logo_img
+                logo_label.pack(pady=(0, 15))
+            except Exception:
+                pass
+
+        # Text information (left-aligned)
+        info_frame = tk.Frame(main_frame)
+        info_frame.pack(fill=tk.X, pady=(0, 15))
+
+        version_label = tk.Label(info_frame, text="28-05-26 - Version 1.0.1", font=("Arial", 10), anchor="w")
+        version_label.pack(fill=tk.X, pady=2)
+
+        copyright_label = tk.Label(info_frame, text="Copyright © 2026 Brage Mellesdal", font=("Arial", 10), anchor="w")
+        copyright_label.pack(fill=tk.X, pady=2)
+
+        link_frame = tk.Frame(info_frame)
+        link_frame.pack(fill=tk.X, pady=2)
+        link_label = tk.Label(link_frame, text="www.ProjectLinkPlaceholder.gg", fg="blue", cursor="hand2", font=("Arial", 10, "underline"))
+        link_label.pack(side=tk.LEFT)
+        def open_link(event):
+            webbrowser.open("https://www.ProjectLinkPlaceholder.gg")
+        link_label.bind("<Button-1>", open_link)
+
+        # OK button right-aligned
+        button_frame = tk.Frame(main_frame)
+        button_frame.pack(fill=tk.X)
+        ok_button = tk.Button(button_frame, text="OK", command=about_window.destroy, width=10)
+        ok_button.pack(side=tk.RIGHT)
+
+        # Let window shrink to fit content
+        about_window.update_idletasks()
+        width = about_window.winfo_reqwidth()
+        height = about_window.winfo_reqheight()
+        about_window.geometry(f"{width}x{height}")
+        # Center on parent
+        x = self.root.winfo_x() + (self.root.winfo_width() - width) // 2
+        y = self.root.winfo_y() + (self.root.winfo_height() - height) // 2
+        about_window.geometry(f"+{x}+{y}")
 
     def clear_output(self):
         self.output_text.delete(1.0, tk.END)
