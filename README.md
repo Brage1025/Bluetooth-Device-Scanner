@@ -1,6 +1,6 @@
 # Bluetooth Device Scanner
 
-A cross‑platform GUI tool to discover Bluetooth Low Energy (BLE) devices, connect to them, and extract detailed information (manufacturer, model, serial number, firmware, battery level, and all readable characteristics). Also supports **limited classic Bluetooth** discovery (Linux: full scan, Windows: paired devices only).
+A cross‑platform Graphical User Interface (GUI) tool to discover Bluetooth Low Energy (BLE) devices, connect to them, and extract detailed information (manufacturer, model, serial number, firmware, battery level, and all readable characteristics). Also supports **limited classic Bluetooth** discovery (Linux: full scan, Windows: paired devices only).
 
 ![Screenshot](./screenshot/Screenshot.png)
 
